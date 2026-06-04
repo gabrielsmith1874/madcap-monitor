@@ -15,8 +15,8 @@ const CONFIG = {
   /** Base URL for building absolute product links */
   baseUrl: "https://retail.madcapdeals.com",
 
-  /** Polling interval in milliseconds (default: 60 seconds) */
-  pollIntervalMs: 60_000,
+  /** Polling interval in milliseconds (default: 5 minutes) */
+  pollIntervalMs: 300_000,
 
   /** Path to the JSON file where known products are persisted */
   stateFile: path.join(process.env.STATE_DIR || __dirname, "products.json"),
@@ -139,10 +139,23 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+function assertEmailConfigured() {
+  const missing = [];
+  if (!CONFIG.email.from) missing.push("EMAIL_FROM");
+  if (!CONFIG.email.appPassword) missing.push("EMAIL_PASS");
+  if (!CONFIG.email.to) missing.push("EMAIL_TO");
+
+  if (missing.length > 0) {
+    throw new Error(`Missing email configuration: ${missing.join(", ")}`);
+  }
+}
+
 /**
  * Sends a single email listing all newly detected products.
  */
 async function emailNewProducts(products) {
+  assertEmailConfigured();
+
   const productRows = products
     .map(
       (p) =>
@@ -184,7 +197,7 @@ async function emailNewProducts(products) {
 // Main polling loop
 // ---------------------------------------------------------------------------
 
-async function poll(knownProducts, isFirstRun) {
+async function poll(knownProducts, isFirstRun, options = {}) {
   try {
     const products = await fetchProducts();
 
@@ -234,6 +247,9 @@ async function poll(knownProducts, isFirstRun) {
     return knownProducts;
   } catch (err) {
     logError("Poll failed", err);
+    if (options.throwOnError) {
+      throw err;
+    }
     return knownProducts;
   }
 }
@@ -256,10 +272,14 @@ async function main() {
     log(`Loaded ${Object.keys(knownProducts).length} known products from state file`);
   }
 
-  // Initial poll
-  knownProducts = await poll(knownProducts, isFirstRun);
-
   const runOnce = process.argv.includes("--once") || process.env.ONCE === "true";
+  if (runOnce) {
+    assertEmailConfigured();
+  }
+
+  // Initial poll
+  knownProducts = await poll(knownProducts, isFirstRun, { throwOnError: runOnce });
+
   if (runOnce) {
     log("Single run complete, exiting.");
     return;
