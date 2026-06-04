@@ -4,7 +4,12 @@ on:
   schedule:
     # Run every 5 minutes, offset from common high-load cron slots.
     - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      continue_monitoring:
+        description: 'Queue another run after 5 minutes'
+        required: false
+        default: 'true'
 
 jobs:
   run-monitor:
@@ -14,6 +19,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
+      actions: write # Allows queueing the next monitor run
       contents: write # Allows pushing the updated products.json back
 
     steps:
@@ -46,3 +52,11 @@ jobs:
           else
             echo "No changes to commit"
           fi
+
+      - name: Queue next run
+        if: ${{ always() && !cancelled() && (github.event_name == 'schedule' || inputs.continue_monitoring == 'true') }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sleep 300
+          gh workflow run monitor.yml --ref master -f continue_monitoring=true
