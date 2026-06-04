@@ -259,6 +259,12 @@ async function main() {
   // Initial poll
   knownProducts = await poll(knownProducts, isFirstRun);
 
+  const runOnce = process.argv.includes("--once") || process.env.ONCE === "true";
+  if (runOnce) {
+    log("Single run complete, exiting.");
+    return;
+  }
+
   // Schedule recurring polls
   setInterval(async () => {
     knownProducts = await poll(knownProducts, false);
