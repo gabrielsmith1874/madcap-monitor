@@ -2,12 +2,16 @@ name: Madcap Deals Monitor
 
 on:
   schedule:
-    # Run every 5 minutes (GitHub Action limit)
-    - cron: '*/5 * * * *'
+    # Run every 5 minutes, offset from common high-load cron slots.
+    - cron: '2-59/5 * * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
   run-monitor:
+    concurrency:
+      group: madcap-monitor
+      cancel-in-progress: false
+
     runs-on: ubuntu-latest
     permissions:
       contents: write # Allows pushing the updated products.json back
