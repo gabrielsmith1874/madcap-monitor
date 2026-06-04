@@ -1,0 +1,13 @@
+app = 'madcap-monitor'
+primary_region = 'iad'
+
+[build]
+
+[processes]
+  app = 'node monitor.js'
+
+[mounts]
+  source = 'data'
+  destination = '/data'
+
+# No HTTP service needed — this is a background worker, not a web server.

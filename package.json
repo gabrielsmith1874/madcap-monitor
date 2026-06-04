@@ -1,0 +1,13 @@
+{
+  "name": "madcap-scraper",
+  "version": "1.0.0",
+  "description": "Monitors retail.madcapdeals.com for new product listings and sends Windows toast notifications",
+  "main": "monitor.js",
+  "scripts": {
+    "start": "node monitor.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "nodemailer": "^8.0.10"
+  }
+}
