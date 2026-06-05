@@ -634,5 +634,23 @@
     "price": "CA$70",
     "productUrl": "https://retail.madcapdeals.com/product/msi-mag-a750gls-pcie5-fully-modular-compact-gaming-750w-power-supply-80-gold-atx-31-pcie-51-ready-native-dual-color-12v-2x6-cable-low-noise-embossed-jacket-cables-10-year-warranty",
     "firstSeen": "2026-06-05T15:30:38.843Z"
+  },
+  "arctis-nova-3": {
+    "title": "Arctis Nova 3",
+    "price": "CA$60",
+    "productUrl": "https://retail.madcapdeals.com/product/arctis-nova-3",
+    "firstSeen": "2026-06-05T15:41:11.341Z"
+  },
+  "razer-blackshark-v2-x-gaming-headset-50mm-drivers-cardioid-mic-memory-foam-cushion-lightweight-comfortable-noise-isolating-earcups-for-pc-ps4-ps5-switch-35mm-audio-jack-black": {
+    "title": "Razer BlackShark V2 X Gaming Headset: 50...",
+    "price": "CA$30",
+    "productUrl": "https://retail.madcapdeals.com/product/razer-blackshark-v2-x-gaming-headset-50mm-drivers-cardioid-mic-memory-foam-cushion-lightweight-comfortable-noise-isolating-earcups-for-pc-ps4-ps5-switch-35mm-audio-jack-black",
+    "firstSeen": "2026-06-05T15:41:11.341Z"
+  },
+  "corsair-rm-series-2021-white-rm850-850-watt-80-plus-gold-certified-fully-modular-power-supply": {
+    "title": "CORSAIR RM Series (2021), White, RM850,...",
+    "price": "CA$90",
+    "productUrl": "https://retail.madcapdeals.com/product/corsair-rm-series-2021-white-rm850-850-watt-80-plus-gold-certified-fully-modular-power-supply",
+    "firstSeen": "2026-06-05T15:41:11.341Z"
   }
 }
