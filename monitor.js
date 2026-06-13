@@ -93,6 +93,7 @@ async function fetchProducts() {
 
   $(".product-card").each((_i, card) => {
     const $card = $(card);
+    if ($card.find(".sold-ribbon").length > 0) return;
 
     // The product link is the overlay anchor or the thumb link
     const linkEl =
